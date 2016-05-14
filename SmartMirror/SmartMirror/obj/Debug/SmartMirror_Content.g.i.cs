@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("common/speech/grammar/de/grammar-de.xml")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("common/speech/grammar/en/grammar-en.xml")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("messengers/google/resources/client_secret.json")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("messengers/google/resources/gmail-icon.png")]
 
