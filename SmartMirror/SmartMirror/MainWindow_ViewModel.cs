@@ -1,4 +1,5 @@
-﻿using SmartMirror.Common;
+﻿using SmartMirror.Auxileriers.Speech;
+using SmartMirror.Common;
 using SmartMirror.DateTime.Time;
 using SmartMirror.Messengers.Google;
 using SmartMirror.NewsFeed;
@@ -31,6 +32,7 @@ namespace SmartMirror
         /*Private instance variable for Time*/
         private Time_ViewModel _time;
 
+        private SpeechComponent speech;
 
         /*Constructor*/
         public MainWindow_ViewModel()
@@ -50,6 +52,16 @@ namespace SmartMirror
 
             /*Time relevant initialization*/
             TimeModule = new Time_ViewModel();
+
+           speech = new SpeechComponent();
+            speech.sessionsExpired += Speech_sessionsExpired;
+            speech.commandsGenerated += commandRecorded;
+            speech.startSession();
+        }
+
+        private void Speech_sessionsExpired()
+        {
+            speech.startSession();
         }
 
         /*Events subscriptions*/
@@ -98,5 +110,9 @@ namespace SmartMirror
             set { SetProperty(ref _time, value); }
         }
 
+        public void commandRecorded(string command, string param)
+        {
+            System.Diagnostics.Debug.WriteLine("command was: " + command + " param was: " + param);
+        }
     }
 }
