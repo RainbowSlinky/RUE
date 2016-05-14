@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="SmartMirror.Messengers.Google.GmailListMessage_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SmartMirror.Messengers.Google"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="gmailMessage_Template">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Column="0" Text="{Binding FromMessage}" Margin="5,0"/>
+                <TextBlock Grid.Column="1" Text="{Binding HeadlineMessage}" Margin="5,0" />
+                <TextBlock Grid.Column="2" Text="{Binding DateMessage}" Margin="5,0"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <DockPanel>
+        <ListView ItemsSource="{Binding MessageList}" ItemTemplate="{StaticResource gmailMessage_Template}" />
+    </DockPanel>
+</UserControl>

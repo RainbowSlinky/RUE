@@ -1,0 +1,63 @@
+﻿<Controls:MetroWindow x:Class="SmartMirror.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SmartMirror"
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:ViewModel="clr-namespace:SmartMirror"
+        xmlns:Gmail="clr-namespace:SmartMirror.Messengers.Google"
+        xmlns:NewsFeed="clr-namespace:SmartMirror.NewsFeed"
+        xmlns:Weather="clr-namespace:SmartMirror.Weather"              
+        xmlns:Common="clr-namespace:SmartMirror.Common"
+        xmlns:Time="clr-namespace:SmartMirror.DateTime.Time"
+        mc:Ignorable="d"
+        Title="SmartMirror" ShowTitleBar="False" ShowMaxRestoreButton="False" ShowMinButton="False" WindowState="Maximized">
+
+    <Window.DataContext>
+        <ViewModel:MainWindow_ViewModel></ViewModel:MainWindow_ViewModel>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type Gmail:Gmail_ViewModel}">
+            <Gmail:Gmail_View/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="GmailListMessageDataTemplate" DataType="{x:Type Gmail:GmailListMessage_ViewModel}">
+            <Gmail:GmailListMessage_View/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="GmailOpenMessageDataTemplate" DataType="{x:Type Gmail:GmailOpenMessage_ViewModel}">
+            <Gmail:GmailOpenMessage_View/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type NewsFeed:News_ViewModel}">
+            <NewsFeed:News_View/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type Weather:Weather_ViewModel}">
+            <Weather:Weather_View/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type Time:Time_ViewModel}">
+            <Time:Time_View/>
+        </DataTemplate>
+
+        <Common:ContentDataTemplateSelector x:Key="ContentSelector"
+                                            ListMessageDataTemplate="{StaticResource GmailListMessageDataTemplate}"
+                                            OpenMessageDataTemplate="{StaticResource GmailOpenMessageDataTemplate}"/>
+    </Window.Resources>
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="10">
+            <DockPanel DockPanel.Dock="Left">
+                <ContentControl Content="{Binding TimeModule}" DockPanel.Dock="Top" Margin="10"/>
+                <ContentControl Content="{Binding GmailModule}" DockPanel.Dock="Top" Margin="10"/>
+                <ContentControl Content="{Binding WeatherModule}" DockPanel.Dock="Top" Margin="10"/>
+            </DockPanel>
+            <ContentControl Content="{Binding CurrentModule}" ContentTemplateSelector="{StaticResource ContentSelector}" DockPanel.Dock="Right"/>
+        </DockPanel>
+        <ContentControl Content="{Binding NewsFeedModule}" DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom"/>
+    </DockPanel>
+    
+</Controls:MetroWindow>

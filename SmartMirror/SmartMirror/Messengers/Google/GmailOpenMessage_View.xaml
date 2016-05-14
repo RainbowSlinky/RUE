@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="SmartMirror.Messengers.Google.GmailOpenMessage_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SmartMirror.Messengers.Google"
+             mc:Ignorable="d" >
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <TextBlock Text="From" DockPanel.Dock="Left" Width="100"/>
+            <TextBlock Text="{Binding From}" DockPanel.Dock="Left"/>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <TextBlock Text="Subject" DockPanel.Dock="Left" Width="100"/>
+            <TextBlock Text="{Binding Subject}" DockPanel.Dock="Left"/>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <TextBlock Text="Message" DockPanel.Dock="Left" Width="100"/>
+            <TextBlock Text="{Binding Body}" DockPanel.Dock="Left"/>
+        </DockPanel>
+    </DockPanel>
+</UserControl>
