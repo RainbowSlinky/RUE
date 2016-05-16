@@ -112,6 +112,28 @@ namespace SmartMirror
 
         public void commandRecorded(string command, string param)
         {
+            try
+            {   switch (command)
+                    {
+                    case "showMailList": _gmail.OnListMessages(); break;
+                    case "showMails":   _gmail.OnOpenEmailMessage(int.Parse(param)); break;
+                    case "closeMails": break;//TDB
+                    case "showWeather": break;
+                    case "closeWeather": break;
+                    case "openNews": break;
+                    case "openSpecificNews": break;
+                    case "closeNews": break;
+                    case "closeSpecificNews": break;
+                    case "closeCalender": break;
+                    case "openCalender": break;
+                }
+            }
+            catch
+            {
+                System.Diagnostics.Debug.WriteLine("command " + command + " with parameter " + param + " could not be executed");
+            }
+            
+
             System.Diagnostics.Debug.WriteLine("command was: " + command + " param was: " + param);
         }
     }

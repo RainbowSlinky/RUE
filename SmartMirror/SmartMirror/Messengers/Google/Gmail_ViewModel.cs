@@ -35,9 +35,9 @@ namespace SmartMirror.Messengers.Google
             MessageCount = "0";
             BitmapImage bitmap_Gmail = new BitmapImage(new Uri("/SmartMirror;component/Messengers/Google/Resources/gmail-icon.png", UriKind.RelativeOrAbsolute));
             GmailIcon = bitmap_Gmail;
-            SignIn = new RelayCommand(OnSignIn);
-            ListMessages = new RelayCommand(OnListMessages);
-            OpenEmailMessage = new RelayCommand(OnOpenEmailMessage);
+            //SignIn = new RelayCommand(OnSignIn);
+            //ListMessages = new RelayCommand(OnListMessages);
+            //OpenEmailMessage = new RelayCommand(OnOpenEmailMessage);
             _gmailMesageList = new List<GmailMessage>();
 
 
@@ -68,9 +68,9 @@ namespace SmartMirror.Messengers.Google
             OnUnreadMessageCount();
         }
 
-        public void OnOpenEmailMessage()
+        public void OnOpenEmailMessage(int messageNumber)
         {
-            GmailMessage = MessageList[1];
+            GmailMessage = MessageList[messageNumber];
         }
 
         public void OnUnreadMessageCount()

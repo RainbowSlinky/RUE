@@ -9,9 +9,9 @@
         <Image x:Name="gmailIcon_Image" Height="50" Width="50" Source="{Binding GmailIcon}" DockPanel.Dock="Top"/>
         <TextBlock x:Name="messagesCount_TextBlock" Text="{Binding MessageCount}" FontWeight="Bold" TextAlignment="Center" DockPanel.Dock="Top"/>
         <DockPanel DockPanel.Dock="Top">
-            <Button x:Name="signIn_Button" Command="{Binding SignIn}" Width="50" Height="30" Content="Sign In" DockPanel.Dock="Left"/>
+            <!--<Button x:Name="signIn_Button" Command="{Binding SignIn}" Width="50" Height="30" Content="Sign In" DockPanel.Dock="Left"/>
             <Button x:Name="listMessages_Button" Command="{Binding ListMessages}" Width="50" Height="30" Content="List" DockPanel.Dock="Left"/>
-            <Button x:Name="openEmail_Button" Command="{Binding OpenEmailMessage}" Width="50" Height="30" Content="Open" DockPanel.Dock="Left"/>
+            <Button x:Name="openEmail_Button" Command="{Binding OpenEmailMessage}" Width="50" Height="30" Content="Open" DockPanel.Dock="Left"/>-->
         </DockPanel>
     </DockPanel>
 </UserControl>
