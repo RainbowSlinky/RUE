@@ -112,11 +112,17 @@ namespace SmartMirror
 
         public void commandRecorded(string command, string param)
         {
-            try
-            {   switch (command)
+            //try
+            //{
+                switch (command)
                     {
-                    case "showMailList": _gmail.OnListMessages(); break;
-                    case "showMails":   _gmail.OnOpenEmailMessage(int.Parse(param)); break;
+                    case "showMailList":
+                    {
+                        GmailModule.OnSignIn();
+                        GmailModule.OnListMessages();
+                        break;
+                    }
+                    case "showMails": GmailModule.OnOpenEmailMessage(int.Parse(param)); break;
                     case "closeMails": break;//TDB
                     case "showWeather": break;
                     case "closeWeather": break;
@@ -127,11 +133,11 @@ namespace SmartMirror
                     case "closeCalender": break;
                     case "openCalender": break;
                 }
-            }
-            catch
-            {
-                System.Diagnostics.Debug.WriteLine("command " + command + " with parameter " + param + " could not be executed");
-            }
+            //}
+            //catch(Exception ex)
+            //{
+            //    System.Diagnostics.Debug.WriteLine("command " + command + " with parameter " + param + " could not be executed");
+            //}
             
 
             System.Diagnostics.Debug.WriteLine("command was: " + command + " param was: " + param);

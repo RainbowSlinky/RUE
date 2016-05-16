@@ -108,7 +108,10 @@ namespace SmartMirror.Messengers.Google
                     else if (head.Name.Equals("Subject"))
                         gmailMessage.HeadlineMessage = head.Value;
                     else if (head.Name.Equals("From"))
-                        gmailMessage.FromMessage = head.Value.Remove(head.Value.IndexOf('<'));
+                        if(head.Value.Contains('<'))
+                            gmailMessage.FromMessage = head.Value.Remove(head.Value.IndexOf('<'));
+                        else
+                            gmailMessage.FromMessage = head.Value;
                 }
                 try
                 {
