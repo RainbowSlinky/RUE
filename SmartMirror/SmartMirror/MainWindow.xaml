@@ -12,7 +12,8 @@
         xmlns:Common="clr-namespace:SmartMirror.Common"
         xmlns:Time="clr-namespace:SmartMirror.DateTime.Time"
         mc:Ignorable="d"
-        Title="SmartMirror" ShowTitleBar="False" ShowMaxRestoreButton="False" ShowMinButton="False" WindowState="Maximized">
+        Title="SmartMirror" ShowTitleBar="False" ShowMaxRestoreButton="False" ShowMinButton="False" WindowState="Maximized"
+                       Loaded="MetroWindow_Loaded">
 
     <Window.DataContext>
         <ViewModel:MainWindow_ViewModel></ViewModel:MainWindow_ViewModel>
@@ -47,8 +48,8 @@
                                             ListMessageDataTemplate="{StaticResource GmailListMessageDataTemplate}"
                                             OpenMessageDataTemplate="{StaticResource GmailOpenMessageDataTemplate}"/>
     </Window.Resources>
-
-    <DockPanel>
+    <Grid>
+          <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="10">
             <DockPanel DockPanel.Dock="Left">
                 <ContentControl Content="{Binding TimeModule}" DockPanel.Dock="Top" Margin="10"/>
@@ -58,6 +59,9 @@
             <ContentControl Content="{Binding CurrentModule}" ContentTemplateSelector="{StaticResource ContentSelector}" DockPanel.Dock="Right"/>
         </DockPanel>
         <ContentControl Content="{Binding NewsFeedModule}" DockPanel.Dock="Bottom" Margin="10" VerticalAlignment="Bottom"/>
+        
     </DockPanel>
-    
+        <Image Source="{ Binding ImageSource}" Stretch="Fill"/>
+    </Grid>
+  
 </Controls:MetroWindow>

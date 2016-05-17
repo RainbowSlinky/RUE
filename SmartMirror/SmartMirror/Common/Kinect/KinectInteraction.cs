@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Kinect;
 namespace SmartMirror.Common.Kinect
 {
-    class KinectInteraction
+    public class KinectInteraction
     {
         #region "Variables and constants"
         /// <summary>
@@ -38,10 +38,8 @@ namespace SmartMirror.Common.Kinect
         /// </summary>
         private Body[] bodies = null;
 
-                /// <summary>
-        /// Current status text to display
-        /// </summary>
-        private string statusText = null;
+
+        public float KinectFrameHeight, KinectFrameWidth;
         /// <summary>
         /// Constant for clamping Z values of camera space points from being negative
         /// </summary>
@@ -58,60 +56,21 @@ namespace SmartMirror.Common.Kinect
         {
             // one sensor is currently supported
             this.kinectSensor = KinectSensor.GetDefault();
-
+            
             // get the coordinate mapper
             this.coordinateMapper = this.kinectSensor.CoordinateMapper;
 
             // get the depth (display) extents
             FrameDescription frameDescription = this.kinectSensor.DepthFrameSource.FrameDescription;
+            KinectFrameHeight = frameDescription.Height;
+            KinectFrameWidth = frameDescription.Width;
 
-            
 
             // open the reader for the body frames
             this.bodyFrameReader = this.kinectSensor.BodyFrameSource.OpenReader();
 
-            
-
-            // set IsAvailableChanged event notifier
-            this.kinectSensor.IsAvailableChanged += this.Sensor_IsAvailableChanged;
-
             // open the sensor
             this.kinectSensor.Open();
-
-            // set the status text
-            this.StatusText = this.kinectSensor.IsAvailable ? Properties.Resources.RunningStatusText
-                                                            : Properties.Resources.NoSensorStatusText;
-        }
-
-        /// <summary>
-        /// INotifyPropertyChangedPropertyChanged event to allow window controls to bind to changeable data
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-
-        /// <summary>
-        /// Gets or sets the current status text to display
-        /// </summary>
-        public string StatusText
-        {
-            get
-            {
-                return this.statusText;
-            }
-
-            set
-            {
-                if (this.statusText != value)
-                {
-                    this.statusText = value;
-
-                    // notify any bound elements that the text has changed
-                    if (this.PropertyChanged != null)
-                    {
-                        this.PropertyChanged(this, new PropertyChangedEventArgs("StatusText"));
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -175,12 +134,12 @@ namespace SmartMirror.Common.Kinect
                 List<Hands> allHands = new List<Hands>();
                 foreach (Body body in this.bodies)
                 {
-                    Hands hands=null;
+                    Hands hands = null;
                     if (body.IsTracked)
                     {
                         IReadOnlyDictionary<JointType, Joint> joints = body.Joints;
                         CameraSpacePoint positionLeft = joints[JointType.HandLeft].Position;
-                        CameraSpacePoint positionRight = joints[JointType.HandRight].Position;                                              
+                        CameraSpacePoint positionRight = joints[JointType.HandRight].Position;
                         if (positionRight.Z < 0)
                         {
                             positionRight.Z = InferredZPositionClamp;
@@ -200,26 +159,16 @@ namespace SmartMirror.Common.Kinect
                         allHands.Add(hands);
                     }
                 }
-                newHandsFrameDetected(allHands);
-            }
-        }
+                if (allHands.Count > 0)
+                { newHandsFrameDetected(allHands); }
 
-        /// <summary>
-        /// Handles the event which the sensor becomes unavailable (E.g. paused, closed, unplugged).
-        /// </summary>
-        /// <param name="sender">object sending the event</param>
-        /// <param name="e">event arguments</param>
-        private void Sensor_IsAvailableChanged(object sender, IsAvailableChangedEventArgs e)
-        {
-            // on failure, set the status text
-            this.StatusText = this.kinectSensor.IsAvailable ? Properties.Resources.RunningStatusText
-                                                            : Properties.Resources.SensorNotAvailableStatusText;
+            }
         }
     }
 
-    class Hands
+    public class Hands
     {
-        Point HandLeft, HandRight;
+       public Point HandLeft, HandRight;
         public Hands(Point HandLeft, Point HandRight)
         {
             this.HandLeft = HandLeft;

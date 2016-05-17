@@ -1,5 +1,6 @@
 ﻿using SmartMirror.Auxileriers.Speech;
 using SmartMirror.Common;
+using SmartMirror.Common.Kinect;
 using SmartMirror.DateTime.Time;
 using SmartMirror.Messengers.Google;
 using SmartMirror.NewsFeed;
@@ -10,6 +11,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace SmartMirror
 {
@@ -52,12 +54,17 @@ namespace SmartMirror
 
             /*Time relevant initialization*/
             TimeModule = new Time_ViewModel();
-
-           speech = new SpeechComponent();
+            #region "speechAPI"
+ speech = new SpeechComponent();
             speech.sessionsExpired += Speech_sessionsExpired;
             speech.commandsGenerated += commandRecorded;
             speech.startSession();
+            #endregion
+            initKinect();
+
         }
+
+     
 
         private void Speech_sessionsExpired()
         {
@@ -142,5 +149,54 @@ namespace SmartMirror
 
             System.Diagnostics.Debug.WriteLine("command was: " + command + " param was: " + param);
         }
+
+        #region "Kinect"
+        public  KinectInteraction kinect;
+        private const int handRadius = 10;
+
+        private Color handColor = Colors.Blue;
+        private Brush handBrush = null;
+        private Color innerHandColor = Colors.Blue;
+        private Brush innerHandBrush = null;
+        private DrawingGroup dg;
+        private DrawingImage imageSource;
+
+        private void initKinect()
+        {
+
+            handColor = Color.FromArgb(150, 200, 200, 200);
+            innerHandColor = Color.FromArgb(200, 200, 200, 200);
+            kinect = new KinectInteraction();
+            kinect.newHandsFrameDetected += handsDetecedHandler;
+            handBrush = new SolidColorBrush(handColor);
+            innerHandBrush = new SolidColorBrush(innerHandColor);
+            dg = new DrawingGroup();
+            imageSource = new DrawingImage(dg);
+        }
+        /// <summary>
+        /// Gets the bitmap to display
+        /// </summary>
+        public ImageSource ImageSource
+        {
+            get
+            {
+                return this.imageSource;
+            }
+        }
+
+        private void handsDetecedHandler(System.Collections.Generic.List<Hands> allHands)
+        {
+                DrawingContext dc = dg.Open();
+                dc.DrawRectangle(Brushes.Transparent, null, new System.Windows.Rect(0.0, 0.0, kinect.KinectFrameWidth, kinect.KinectFrameHeight));
+                dc.DrawEllipse(handBrush, null, allHands[0].HandLeft, handRadius, handRadius);
+                dc.DrawEllipse(handBrush, null, allHands[0].HandRight, handRadius, handRadius);
+            dc.DrawEllipse(innerHandBrush, null, allHands[0].HandLeft, handRadius/2, handRadius/2);
+            dc.DrawEllipse(innerHandBrush, null, allHands[0].HandRight, handRadius/2, handRadius/2);
+            // prevent drawing outside of our render area
+            dg.ClipGeometry = new RectangleGeometry(new System.Windows.Rect(0.0, 0.0, kinect.KinectFrameWidth, kinect.KinectFrameHeight));
+            System.Diagnostics.Debug.WriteLine("All printed");
+                dc.Close();
+        }
+        #endregion
     }
 }
